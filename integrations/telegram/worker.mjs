@@ -35,7 +35,7 @@ export default {
     if(input.consent!==true || !data.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
        || !['istanbul','moscow','other'].includes(data.city)
        || !['portrait','street','fashion','lifestyle','wedding','other'].includes(data.type)
-       || !data.message)return reply(400,'invalid');
+       || !data.phone)return reply(400,'invalid');
     if(typeof input.turnstileToken!=='string' || input.turnstileToken.length>2048)return reply(400,'spam');
     try {
       const verification=await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify',{

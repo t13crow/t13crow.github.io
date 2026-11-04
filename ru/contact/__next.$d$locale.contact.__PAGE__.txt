@@ -3,7 +3,7 @@
 5:I[8500,[],""]
 a:"static/chunks/497-d8bbbbd65129737b.js"
 b:"static/chunks/915-cda7b1d5bc113ce5.js"
-c:"static/chunks/app/%5Blocale%5D/contact/page-e299ec44f7a7fd68.js"
+c:"static/chunks/app/%5Blocale%5D/contact/page-37f38537ef315276.js"
 d:I[2004,["497","$a","915","$b","638","$c"],"ContactForm"]
 e:I[9063,[],"OutletBoundary"]
 f:"$Sreact.suspense"
