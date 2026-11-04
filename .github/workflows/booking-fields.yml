@@ -1,0 +1,73 @@
+name: Update booking field requirements
+on:
+  push:
+    paths: ['.github/workflows/booking-fields.yml']
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update all languages and server validation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,re,subprocess
+          old='page-e299ec44f7a7fd68.js'
+          p=Path('_next/static/chunks/app/[locale]/contact')/old
+          s=p.read_text()
+          changes=[
+          ('htmlFor:"phone",children:[r("phone"),(0,n.jsx)("span",{children:r("optional")})]','htmlFor:"phone",children:[r("phone")," *"]'),
+          ('id:"phone",name:"phone",autoComplete:"tel",placeholder:r("phonePlaceholder"),maxLength:150','id:"phone",name:"phone",type:"tel",autoComplete:"tel",placeholder:r("phonePlaceholder"),maxLength:150,required:!0'),
+          ('htmlFor:"message",children:[r("message")," *"]','htmlFor:"message",children:[r("message"),(0,n.jsx)("span",{children:r("optional")})]'),
+          ('placeholder:r("messagePlaceholder"),minLength:10,maxLength:3e3,rows:4,required:!0','placeholder:r("messagePlaceholder"),maxLength:3e3,rows:4')]
+          for before,after in changes:
+              assert before in s,before
+              s=s.replace(before,after)
+          new='page-'+hashlib.sha256(s.encode()).hexdigest()[:16]+'.js'
+          p.write_text(s);p.with_name(new).write_text(s)
+          subprocess.run(['node','--check',str(p.with_name(new))],check=True)
+          # The old filename also remains for clients that cached the previous HTML.
+          labels={}
+          for lang,label in [('en','Phone number'),('ru','Номер телефона'),('tr','Telefon numarası')]:
+              html=(Path(lang)/'contact/index.html').read_text()
+              oldlabel=re.search(r'<label for="phone">([^<]+)<span>',html).group(1)
+              labels[oldlabel]=label
+          count=0
+          for f in Path('.').rglob('*'):
+              if not f.is_file() or '.git' in f.parts or '.github' in f.parts or 'integrations' in f.parts or f.suffix not in ('.html','.txt','.js'):
+                  continue
+              text=f.read_text();original=text
+              text=text.replace(old,new)
+              for before,after in labels.items():text=text.replace(before,after)
+              if f.name=='index.html' and f.parent.name=='contact':
+                  optional=re.search(r'<label for="phone">[^<]+<span>([^<]+)</span></label>',text).group(1)
+                  text=re.sub(r'(<label for="phone">[^<]+)<span>[^<]+</span></label>',r'\1<!-- --> *</label>',text)
+                  text=re.sub(r'(<input id="phone")',r'\1 type="tel" required=""',text)
+                  text=re.sub(r'(<label for="message">[^<]+)<!-- --> \*</label>',lambda m:m[1]+'<span>'+optional+'</span></label>',text)
+                  text=re.sub(r'<textarea\b[^>]*>',lambda m:m[0].replace(' minLength="10"','').replace(' required=""',''),text)
+              if text!=original:f.write_text(text);count+=1
+          w=Path('integrations/telegram/worker.mjs')
+          s=w.read_text()
+          assert "|| !data.message)" in s
+          s=s.replace("|| !data.message)","|| !data.phone)")
+          w.write_text(s)
+          subprocess.run(['node','--check',str(w)],check=True)
+          for lang in ('en','ru','tr'):
+              html=(Path(lang)/'contact/index.html').read_text()
+              for field in ('email','phone'):
+                  tag=re.search(r'<input id="'+field+r'"[^>]*>',html).group()
+                  assert 'required=""' in tag,(lang,field)
+              tag=re.search(r'<textarea[^>]*>',html).group()
+              assert 'required' not in tag and 'minLength' not in tag
+              assert new in html
+          print('Validated required email and phone, optional message in all languages; changed',count,'files.')
+          
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Require email and phone; make inquiry description optional"
+          git push origin HEAD:main
