@@ -16,7 +16,11 @@ jobs:
           import urllib.request, urllib.error, json
           url='https://t13crow-orders.amirarsalannajafi.workers.dev/api/contact'
           headers={'Origin':'https://t13crow.github.io','Content-Type':'application/json'}
-          r=urllib.request.urlopen(urllib.request.Request(url,method='OPTIONS',headers=headers),timeout=20)
+          try:
+              r=urllib.request.urlopen(urllib.request.Request(url,method='OPTIONS',headers=headers),timeout=20)
+          except urllib.error.HTTPError as e:
+              print('Preflight status:',e.code,'Server:',e.headers.get('Server'),'Location:',e.headers.get('Location'),'Body:',e.read(1500).decode(errors='replace'))
+              raise
           assert r.status==204
           assert r.headers.get('Access-Control-Allow-Origin')=='https://t13crow.github.io'
           try:
