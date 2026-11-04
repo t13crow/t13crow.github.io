@@ -1,0 +1,87 @@
+name: Connect Telegram booking form
+on:
+  push:
+    paths: ['.github/workflows/connect-telegram.yml']
+permissions:
+  contents: write
+jobs:
+  connect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify order receiver is available and configured
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, json
+          url='https://t13crow-orders.amirarsalannajafi.workers.dev/api/contact'
+          headers={'Origin':'https://t13crow.github.io','Content-Type':'application/json'}
+          r=urllib.request.urlopen(urllib.request.Request(url,method='OPTIONS',headers=headers),timeout=20)
+          assert r.status==204
+          assert r.headers.get('Access-Control-Allow-Origin')=='https://t13crow.github.io'
+          try:
+              urllib.request.urlopen(urllib.request.Request(url,data=b'{}',method='POST',headers=headers),timeout=20)
+              raise AssertionError('Empty inquiry unexpectedly accepted')
+          except urllib.error.HTTPError as e:
+              body=json.load(e)
+              print('Receiver status:',e.code,'code:',body.get('error'))
+              assert e.code==400 and body.get('error')=='invalid', 'Receiver is not configured or inaccessible'
+          PY
+      - name: Connect form and update privacy text in all languages
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, re, hashlib, subprocess
+          ROOT=Path('.')
+          key='0x4AAAAAAFz7zCM1Xvmg_kB6'
+          endpoint='https://t13crow-orders.amirarsalannajafi.workers.dev/api/contact'
+          oldname='page-0c04f835a7964019.js'
+          chunk=ROOT/'_next/static/chunks/app/[locale]/contact'/oldname
+          source=chunk.read_text()
+          assert 'fetch("/api/contact"' in source
+          source=source.replace('fetch("/api/contact"', 'fetch('+json.dumps(endpoint))
+          newname='page-'+hashlib.sha256(source.encode()).hexdigest()[:16]+'.js'
+          chunk.write_text(source)
+          chunk.with_name(newname).write_text(source)
+          subprocess.run(['node','--check',str(chunk.with_name(newname))],check=True)
+          replacements=[["Your inquiry has been sent to the photographer. A reply will come to the email you provided.","Your inquiry has been sent to the photographer. You will be contacted using the details you provided."],["When enabled, the form sends your message through Resend. Automated submission protection uses Cloudflare Turnstile and request rate limiting. Vercel hosting may process technical request logs. Portfolio images may be served by Sanity CDN.","The form is processed by Cloudflare Workers and protected by Cloudflare Turnstile. Your inquiry and contact details are delivered to the photographer through Telegram. The website is hosted on GitHub Pages."],["Inquiries arrive in the photographer’s working mailbox. You may request access, correction or deletion using the contact below. Do not submit sensitive information through the form.","Inquiries are delivered to the photographer’s private Telegram chat. You may request access, correction or deletion using the contact below. Do not submit sensitive information through the form."],["Заявка отправлена фотографу. Ответ придет на указанный вами email.","Заявка отправлена фотографу. С вами свяжутся по указанным контактным данным."],["При включенной форме сообщение передается почтовому сервису Resend. Защита от автоматических заявок использует Cloudflare Turnstile и ограничение частоты запросов. Хостинг Vercel может обрабатывать технические журналы запросов. Портфолио может загружать изображения с Sanity CDN.","Форма обрабатывается Cloudflare Workers и защищена Cloudflare Turnstile. Заявка и контактные данные передаются фотографу через Telegram. Сайт размещён на GitHub Pages."],["Заявки поступают на рабочую почту фотографа. Вы можете запросить доступ, исправление или удаление своих данных, связавшись с фотографом по указанному ниже контакту. Не отправляйте через форму чувствительные сведения.","Заявки поступают в личный чат фотографа в Telegram. Вы можете запросить доступ, исправление или удаление своих данных, связавшись с фотографом по указанному ниже контакту. Не отправляйте через форму чувствительные сведения."],["Talebiniz fotoğrafçıya gönderildi. Yanıt, belirttiğiniz e-posta adresine gelecek.","Talebiniz fotoğrafçıya gönderildi. Verdiğiniz iletişim bilgileri üzerinden sizinle iletişime geçilecek."],["Form etkin olduğunda mesajınız Resend üzerinden iletilir. Otomatik gönderim koruması, Cloudflare Turnstile ve istek sınırlandırmasını kullanır. Vercel barındırma hizmeti teknik istek kayıtlarını işleyebilir. Portfolyo görselleri Sanity CDN üzerinden sunulabilir.","Form, Cloudflare Workers tarafından işlenir ve Cloudflare Turnstile ile korunur. Talebiniz ve iletişim bilgileriniz Telegram aracılığıyla fotoğrafçıya iletilir. Site GitHub Pages üzerinde barındırılır."],["Talepler fotoğrafçının iş e-postasına ulaşır. Aşağıdaki iletişim adresinden verilerinize erişim, düzeltme veya silme talep edebilirsiniz. Form üzerinden hassas bilgi göndermeyin.","Talepler fotoğrafçının özel Telegram sohbetine iletilir. Aşağıdaki iletişim adresinden verilerinize erişim, düzeltme veya silme talep edebilirsiniz. Form üzerinden hassas bilgi göndermeyin."]]
+          props='"siteKey":"$undefined","ready":false'
+          updated='"siteKey":"'+key+'","ready":true'
+          changed=0
+          for p in ROOT.rglob('*'):
+              if not p.is_file() or '.git' in p.parts or '.github' in p.parts or 'integrations' in p.parts or p.suffix not in ('.html','.txt','.js','.xml','.json'):
+                  continue
+              s=p.read_text()
+              original=s
+              s=s.replace(oldname,newname)
+              s=s.replace(props,updated)
+              s=s.replace(props.replace('"',r'\"'),updated.replace('"',r'\"'))
+              for before,after in replacements:
+                  s=s.replace(before,after)
+              if p.name=='index.html' and p.parent.name=='contact':
+                  s,count=re.subn(r'<p class="form-note">[^<]*</p>(?=<button type="submit")','<div class="turnstile-container"></div>',s)
+                  assert count==1, str(p)
+              if s!=original:
+                  p.write_text(s)
+                  changed+=1
+          worker=ROOT/'integrations/telegram/worker.mjs'
+          s=worker.read_text().replace('{ok:false,error}','{ok:false,error,code:error}').replace('message:2000','message:3000')
+          s=s.replace("verified.hostname!=='t13crow.github.io'","verified.hostname!=='t13crow.github.io' || verified.action!=='photography-inquiry'")
+          worker.write_text(s)
+          subprocess.run(['node','--check',str(worker)],check=True)
+          for lang in ('en','ru','tr'):
+              for name in ('index.html','index.txt'):
+                  s=(ROOT/lang/'contact'/name).read_text()
+                  assert key in s and newname in s, (lang,name)
+                  assert props not in s and props.replace('"',r'\"') not in s
+              assert 'Telegram' in (ROOT/lang/'privacy/index.html').read_text()
+          assert changed>=6
+          print('Updated',changed,'files; all three languages have active contact configuration and Telegram privacy text.')
+          
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Enable Telegram bookings with Turnstile in all languages"
+          git push origin HEAD:main
