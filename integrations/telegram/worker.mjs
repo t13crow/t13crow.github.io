@@ -7,7 +7,7 @@ export default {
     const headers = {'Content-Type':'application/json','Cache-Control':'no-store',
       'Access-Control-Allow-Origin':ORIGIN,'Vary':'Origin',
       'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type'};
-    const reply = (status, error) => new Response(JSON.stringify(error ? {ok:false,error} : {ok:true}),{status,headers});
+    const reply = (status, error) => new Response(JSON.stringify(error ? {ok:false,error,code:error} : {ok:true}),{status,headers});
     if (request.headers.get('Origin') !== ORIGIN) return reply(403,'forbidden');
     if (new URL(request.url).pathname !== '/api/contact') return reply(404,'not_found');
     if (request.method === 'OPTIONS') return new Response(null,{status:204,headers});
@@ -24,7 +24,7 @@ export default {
       input=JSON.parse(new TextDecoder().decode(bytes));
     } catch {return reply(400,'invalid');}
     if(!input || typeof input!=='object' || Array.isArray(input)) return reply(400,'invalid');
-    const limits={name:100,email:254,phone:150,city:30,type:30,date:10,message:2000};
+    const limits={name:100,email:254,phone:150,city:30,type:30,date:10,message:3000};
     const data={};
     for(const [key,limit] of Object.entries(limits)){
       if(input[key]!==undefined && typeof input[key]!=='string')return reply(400,'invalid');
@@ -43,7 +43,7 @@ export default {
         body:JSON.stringify({secret:env.TURNSTILE_SECRET_KEY,response:input.turnstileToken}),
         signal:AbortSignal.timeout(8000)});
       const verified=await verification.json();
-      if(!verification.ok || !verified.success || verified.hostname!=='t13crow.github.io')return reply(400,'spam');
+      if(!verification.ok || !verified.success || verified.hostname!=='t13crow.github.io' || verified.action!=='photography-inquiry')return reply(400,'spam');
       const text=['New photography inquiry — ФАНТАЗЁР',
         ...Object.entries(data).map(([key,value])=>key+': '+(value||'—'))].join('\n');
       const sent=await fetch('https://api.telegram.org/bot'+env.TELEGRAM_BOT_TOKEN+'/sendMessage',{
