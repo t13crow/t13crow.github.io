@@ -16,7 +16,7 @@ jobs:
           git fetch --depth=1 https://github.com/Maximand/Maximand.github.io.git 4e84c9809b77cf005c8f1e66aadf5b1df9e7abf3
           GIT_LFS_SKIP_SMUDGE=1 git archive FETCH_HEAD | tar -x
           rm -rf _site
-          rm -f CNAME
+          rm -f CNAME assets/sinkholed_domains_2025.txt.gz
           find . -name .DS_Store -delete
           python3 - <<'PY'
           from pathlib import Path
