@@ -1,0 +1,196 @@
+{%- comment -%}
+  disclosing.observer — self-contained editorial post hero for the TeXt theme.
+
+  WHY SELF-CONTAINED: the theme's compiled CSS sets hero text colour
+  (`.hero--light` → dark text, the default) and flex-stretches any bare child
+  (which ballooned the eye-disc). Rather than fight that from _sass/_custom.scss
+  — which lost the cascade after a GitHub Pages rebuild — this include ships its
+  own scoped <style> block. It is emitted in the page body, AFTER the theme's
+  main.css, so its rules win by source order without !important gymnastics, and
+  the hero no longer depends on _custom.scss at all.
+
+  Trigger it with front matter:
+      article_header:
+        type: overlay      # NOT cover; no image needed
+  The overlay band renders ABOVE the content+TOC grid, so the hero is full-width
+  and the TOC drops below it — the target layout.
+
+  Everywhere else (about page, default posts, the theme's hidden col-main call)
+  this reproduces the stock header byte-for-byte.
+{%- endcomment -%}
+{%- include snippets/get-article-title.html article=include.article -%}
+{%- assign _article_title = __return -%}
+
+{%- assign _ah_type = include.article.article_header.type | default: layout.article_header.type -%}
+
+{%- if include.html != false -%}
+
+  {%- if _ah_type == 'overlay' -%}
+    {%- assign _author = site.data.authors[include.article.author] | default: site.author -%}
+    <style>
+      /* ╔══════════════════════════════════════════════════════════════╗
+         ║  EDIT THESE — the only knobs you normally need.               ║
+         ║  All are on the hero wrapper; change a number, commit,        ║
+         ║  let Pages rebuild, hard-refresh.                             ║
+         ╚══════════════════════════════════════════════════════════════╝ */
+      .article__header--overlay{
+        --hero-pad-top:    1.5rem;  /* gap above the kicker (0 = flush to nav) */
+        --hero-pad-bottom: 0rem;     /* gap below the byline rule              */
+        --eye-size:        620px;    /* diameter of the eye-disc               */
+        --eye-right:      -160px;    /* push right; more negative = further off-screen */
+        --eye-top:         50%;      /* vertical anchor (50% = centred)        */
+        --eye-nudge:       0px;      /* fine vertical nudge: +down / -up        */
+      }
+
+      /* ---- structural resets: control ONLY vertical spacing.            ----
+         ---- Horizontal gutter is left to the theme's .hero .main so the  ----
+         ---- hero stays aligned with the logo and body content.          ---- */
+      .article__header--overlay .hero.overlay{
+        position:relative; overflow:hidden; background:#14181F;
+        justify-content:flex-start;   /* top-align instead of the theme's vertical centring */
+        /* !important defeats the theme's compiled `.overlay{min-height:36rem;
+           padding:6rem 0}` — the 36rem min-height is the real bottom gap. */
+        min-height:0 !important;
+        padding-top:var(--hero-pad-top) !important;
+        padding-bottom:var(--hero-pad-bottom) !important;
+      }
+      .article__header--overlay .hero__content{
+        position:static; margin:0; padding:0; width:100%;
+      }
+      .article__header--overlay .hero .main{
+        position:static;
+        max-width:1170px; margin:0 auto;
+        padding:0 3rem;
+      }
+      @media (max-width:1024px){
+        .article__header--overlay .hero .main{ max-width:950px; padding:0 1.5rem; }
+      }
+      @media (max-width:500px){
+        .article__header--overlay .hero .main{ padding:0 1rem; }
+      }
+      /* Hide the theme's stock meta / excerpt / tag-pills inside the band —
+         our hero renders its own kicker + standfirst + byline. */
+      .article__header--overlay .article__info,
+      .article__header--overlay .overlay__excerpt,
+      .article__header--overlay .menu{ display:none !important; }
+
+      .article__header--overlay .do-hero{ position:relative; }
+      .article__header--overlay .do-hero__eye{
+        position:absolute; right:var(--eye-right); top:var(--eye-top);
+        transform:translateY(-50%) translateY(var(--eye-nudge));
+        width:var(--eye-size); height:var(--eye-size); z-index:0; pointer-events:none;
+      }
+      .article__header--overlay .do-hero__in{
+        position:relative; z-index:1; max-width:44rem;
+        border-bottom:1px solid rgba(251,250,247,.09); padding-bottom:2.25rem;
+      }
+      .article__header--overlay .do-hero__kicker{
+        display:flex; flex-wrap:wrap; align-items:center; gap:.55rem;
+        font-family:"IBM Plex Mono",monospace; font-size:.8rem; font-weight:500;
+        letter-spacing:.14em; text-transform:uppercase; margin-bottom:1.6rem; line-height:1.3;
+      }
+      .article__header--overlay .do-hero__kicker .is-amber{ color:#E8A100; }
+      .article__header--overlay .do-hero__kicker .is-muted{ color:rgba(251,250,247,.55); }
+      .article__header--overlay .do-hero__kicker .do-hero__dot{ color:rgba(251,250,247,.4); }
+      .article__header--overlay .do-hero__title{
+        display:block; font-family:"Newsreader",Georgia,serif; font-weight:500;
+        font-size:clamp(2rem,4.6vw,3.3rem); line-height:1.06; letter-spacing:-.025em;
+        margin:0; color:#FBFAF7;
+      }
+      .article__header--overlay .do-hero__standfirst{
+        font-family:"Newsreader",Georgia,serif; font-weight:400;
+        font-size:clamp(1.1rem,2.2vw,1.4rem); line-height:1.5;
+        color:rgba(251,250,247,.78); margin:1.5rem 0 0; max-width:34rem;
+      }
+      .article__header--overlay .do-hero__meta{
+        display:flex; flex-wrap:wrap; align-items:center; gap:.7rem; margin-top:2.25rem;
+        font-family:"IBM Plex Mono",monospace; font-size:.9rem; color:rgba(251,250,247,.55);
+      }
+      .article__header--overlay .do-hero__meta i{ margin-right:.15rem; }
+      .article__header--overlay .do-hero__meta .do-hero__sep{ opacity:.4; }
+      @media (max-width:768px){
+        .article__header--overlay .hero .main{ padding-top:3rem; padding-bottom:2rem; }
+        .article__header--overlay .do-hero__eye{ right:-220px; width:430px; height:430px; opacity:.85; }
+      }
+    </style>
+    <div class="do-hero">
+      <svg class="do-hero__eye" width="620" height="620" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <path fill="rgba(251,250,247,0.028)" fill-rule="evenodd" d="M3 50 a47 47 0 1 0 94 0 a47 47 0 1 0 -94 0 Z M13.59 52.57 C30.32 32.89 60.82 30.92 86.41 46.66 C63.78 68.31 33.27 70.28 13.59 52.57 Z"></path>
+        <circle cx="53.6" cy="51.2" r="11.4" fill="rgba(232,161,0,0.06)"></circle>
+      </svg>
+      <div class="do-hero__in">
+        {%- if include.article.tags[0] -%}
+          <div class="do-hero__kicker">
+            {%- for _tag in include.article.tags -%}
+              {%- unless forloop.first -%}<span class="do-hero__dot">·</span>{%- endunless -%}
+              <span class="{% if forloop.first %}is-amber{% else %}is-muted{% endif %}">{{ _tag }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <h1 class="do-hero__title">{{ _article_title }}</h1>
+
+        {%- if include.article.description -%}
+          <p class="do-hero__standfirst">{{ include.article.description }}</p>
+        {%- endif -%}
+
+        <div class="do-hero__meta">
+          {%- if include.article.author -%}
+            <span class="do-hero__by"><i class="fas fa-user" aria-hidden="true"></i> {{ _author.name }}</span>
+          {%- endif -%}
+          {%- if include.article.date -%}
+            <span class="do-hero__sep" aria-hidden="true">|</span>
+            <span class="do-hero__date"><i class="far fa-calendar-alt" aria-hidden="true"></i> {{ include.article.date | date: "%b %d, %Y" }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+  {%- else -%}
+    {%- comment -%} ---- theme stock header (unchanged) ---- {%- endcomment -%}
+    {%- include snippets/assign.html
+      target=site.data.variables.default.page.show_title
+      source0=layout.show_title source1=include.article.show_title -%}
+    {%- assign _show_title = __return -%}
+
+    {%- include snippets/assign.html
+      target=site.data.variables.default.page.show_edit_on_github
+      source0=layout.show_edit_on_github source1=include.article.show_edit_on_github -%}
+    {%- assign _show_edit_on_github = __return -%}
+
+    {%- if _show_title or _show_edit_on_github -%}
+      <div class="article__header">
+        {%- if _show_title -%}
+          <header><h1>{{ _article_title }}</h1></header>
+        {%- endif -%}
+        {%- if _show_edit_on_github -%}
+          {%- if site.repository and site.repository_tree -%}
+            {%- include snippets/is_collection.html page=include.article -%}
+            {%- assign _is_article_collection = __return -%}
+            {%- include snippets/get-locale-string.html key='POST_ON_GITHUB' -%}
+            {%- assign _locale_post_on_github = __return -%}
+            {%- if _is_article_collection -%}
+              {%- include snippets/prepend-path.html path=include.article.path prepend_path=site.collections_dir -%}
+              {%- assign _article_path = __return -%}
+            {%- else -%}
+              {%- assign _article_path = include.article.path -%}
+            {%- endif -%}
+            {%- assign _github_path = site.repository | append: '/tree/' | append: site.repository_tree | append: '/' | append: _article_path | replace:'//','/' -%}
+            <span class="split-space">&nbsp;</span>
+            <a class="edit-on-github" title="{{ _locale_post_on_github }}" href="https://github.com/{{ _github_path }}">
+              <i class="far fa-edit"></i></a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <header style="display:none;"><h1>{{ _article_title }}</h1></header>
+    {%- endif -%}
+  {%- endif -%}
+
+{%- else -%}
+  <header style="display:none;"><h1>{{ _article_title }}</h1></header>
+{%- endif -%}
+
+{%- if include.semantic != false -%}
+  <meta itemprop="headline" content="{{ _article_title }}">
+{%- endif -%}

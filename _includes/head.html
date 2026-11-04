@@ -1,0 +1,63 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+{%- include snippets/get-article-title.html article=page -%}
+{%- assign _title = __return | default: site.title -%}
+
+{%- assign _description = page.description | default: page.excerpt | default: site.description -%}
+{%- assign _description = _description | strip_html | strip_newlines | strip | truncate: 160 -%}
+
+{%- capture _url -%}{%- include snippets/page-url.html -%}{%- endcapture -%}
+{%- assign _url = _url | strip -%}
+
+{%- assign _image = page.og_image | default: page.image | default: site.og_image | default: "/assets/images/og-default.png" -%}
+{%- assign _image = _image | absolute_url -%}
+
+<title>{%- if _title and _title != site.title -%}{{ _title }} - {{ site.title }}{%- else -%}{{ site.title }}{%- endif -%}</title>
+<meta name="description" content="{{ _description }}">
+<link rel="canonical" href="{{ _url }}">
+
+<meta property="og:type" content="{% if page.layout == 'article' or page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ _title }}">
+<meta property="og:description" content="{{ _description }}">
+<meta property="og:url" content="{{ _url }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:image" content="{{ _image }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ _title }}">
+<meta name="twitter:description" content="{{ _description }}">
+<meta name="twitter:image" content="{{ _image }}">
+
+{%- assign _paths_rss = site.paths.rss | default: site.data.variables.default.paths.rss -%}
+{%- include snippets/get-nav-url.html path=_paths_rss -%}
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ __return }}">
+
+{%- include head/favicon.html -%}
+
+{%- if page.layout == 'article' or page.layout == 'post' -%}
+{%- assign _author_name = site.author.name | default: site.author | default: "Author" -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ _title | jsonify }},
+  "description": {{ _description | jsonify }},
+  "author": { "@type": "Person", "name": {{ _author_name | jsonify }} },
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ _url | jsonify }} },
+  "image": [{{ _image | jsonify }}]
+}
+</script>
+{%- endif -%}
+
+{%- include snippets/prepend-baseurl.html path='/assets/css/main.css' -%}
+<link rel="stylesheet" href="{{ __return }}">
+
+{%- include snippets/get-sources.html -%}
+{%- assign _sources = __return -%}
+<link rel="stylesheet" href="{{ _sources.font_awesome }}">
+
+{%- include head/custom.html -%}

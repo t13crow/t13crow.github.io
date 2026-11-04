@@ -1,0 +1,29 @@
+/* start custom scss snippet */
+/* disclosing.observer house style */
+body, .article__content, p, li, blockquote {
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+code, pre, kbd, samp,
+.navigation, .article-info, .tags, .tag, time {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+.home-watermark {
+  position: fixed;
+  top: 50%;
+  right: -9vw;
+  transform: translateY(-50%);
+  width: min(640px, 62vh);
+  aspect-ratio: 1 / 1;
+  background: url("/assets/brand-eye.svg") center / contain no-repeat;
+  opacity: 0.05;
+  z-index: 2;            /* was -1, which hid it behind .page__main-inner */
+  pointer-events: none;  /* it never blocks clicks or text selection */
+}
+@media (max-width: 1100px) { .home-watermark { display: none; } }
+/* end custom scss snippet */

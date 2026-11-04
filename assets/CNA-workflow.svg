@@ -1,0 +1,55 @@
+<svg width="1060" height="120" viewBox="0 0 1060 120" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <style>
+    .box { fill: #0f1117; stroke: #39424e; stroke-width: 1.5; rx: 10; ry: 10; }
+    .label { fill: #f9fafb; font-size: 14px; dominant-baseline: middle; text-anchor: middle; font-weight: bold; }
+    .desc { fill: #9ca3af; font-size: 12px; dominant-baseline: middle; text-anchor: middle; }
+    .arrow { stroke: #6b7280; stroke-width: 2; marker-end: url(#arrowhead); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280" />
+    </marker>
+  </defs>
+
+  <!-- Top padding -->
+  <g transform="translate(0,10)">
+    <!-- Boxes and Text -->
+    <rect x="30" y="0" width="140" height="60" class="box"/>
+    <text x="100" y="20" class="label">Discovery</text>
+    <text x="100" y="35" class="desc">Researcher finds a</text>
+    <text x="100" y="48" class="desc">potential vulnerability</text>
+
+    <rect x="190" y="0" width="160" height="60" class="box"/>
+    <text x="270" y="20" class="label">Report to CNA</text>
+    <text x="270" y="35" class="desc">CNA receives a</text>
+    <text x="270" y="48" class="desc">responsible disclosure</text>
+
+    <rect x="370" y="0" width="140" height="60" class="box"/>
+    <text x="440" y="20" class="label">Validation</text>
+    <text x="440" y="35" class="desc">CNA verifies severity</text>
+    <text x="440" y="48" class="desc">and impact</text>
+
+    <rect x="530" y="0" width="160" height="60" class="box"/>
+    <text x="610" y="20" class="label">Vendor Contact</text>
+    <text x="610" y="35" class="desc">CNA reaches out to</text>
+    <text x="610" y="48" class="desc">explain the issue</text>
+
+    <rect x="710" y="0" width="160" height="60" class="box"/>
+    <text x="790" y="20" class="label">Vendor Coordination</text>
+    <text x="790" y="35" class="desc">Disclosure window opens,</text>
+    <text x="790" y="48" class="desc">vendor begins patch prep</text>
+
+    <rect x="890" y="0" width="140" height="60" class="box"/>
+    <text x="960" y="20" class="label">CVE Disclosure</text>
+    <text x="960" y="35" class="desc">Public CVE published</text>
+    <text x="960" y="48" class="desc">with advisory</text>
+
+    <!-- Arrows -->
+    <line x1="170" y1="30" x2="190" y2="30" class="arrow"/>
+    <line x1="350" y1="30" x2="370" y2="30" class="arrow"/>
+    <line x1="510" y1="30" x2="530" y2="30" class="arrow"/>
+    <line x1="690" y1="30" x2="710" y2="30" class="arrow"/>
+    <line x1="870" y1="30" x2="890" y2="30" class="arrow"/>
+  </g>
+</svg>
