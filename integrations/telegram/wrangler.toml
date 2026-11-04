@@ -1,0 +1,8 @@
+name = "t13crow-orders"
+main = "worker.mjs"
+compatibility_date = "2026-11-04"
+workers_dev = true
+
+# Configure TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID and
+# TURNSTILE_SECRET_KEY as runtime secrets in Cloudflare.
+# Never commit secret values here.
