@@ -1,0 +1,36 @@
+name: Import uploaded site
+on:
+  push:
+    paths:
+      - '.github/workflows/import-site.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import the exact revision from the uploaded archive
+        run: |
+          git fetch --depth=1 https://github.com/Maximand/Maximand.github.io.git 4e84c9809b77cf005c8f1e66aadf5b1df9e7abf3
+          git archive FETCH_HEAD | tar -x
+          rm -rf _site
+          rm -f CNAME
+          find . -name .DS_Store -delete
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('_config.yml')
+          s = p.read_text()
+          s = s.replace('url: "https://disclosing.observer"', 'url: "https://t13crow.github.io"')
+          s = s.replace('repository: Maximand/Maximand.github.io', 'repository: t13crow/t13crow.github.io')
+          s = s.replace('repository_tree: master', 'repository_tree: main')
+          p.write_text(s)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "Import uploaded Jekyll site for t13crow.github.io"
+            git push origin HEAD:main
+          fi
