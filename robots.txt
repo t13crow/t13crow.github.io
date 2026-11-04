@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+Host: https://t13crow.github.io
+Sitemap: https://t13crow.github.io/sitemap.xml

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url>
+<loc>https://t13crow.github.io/ru</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr" />
+<changefreq>monthly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr" />
+<changefreq>monthly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr" />
+<changefreq>monthly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/works</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/works" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/works" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/works" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/works</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/works" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/works" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/works" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/works</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/works" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/works" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/works" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/stories</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/stories</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/stories</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/artist</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/artist" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/artist" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/artist" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/artist</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/artist" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/artist" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/artist" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/artist</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/artist" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/artist" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/artist" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/contact</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/contact" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/contact" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/contact" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/contact</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/contact" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/contact" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/contact" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/contact</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/contact" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/contact" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/contact" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/privacy</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/privacy" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/privacy" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/privacy" />
+<changefreq>monthly</changefreq>
+<priority>0.3</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/privacy</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/privacy" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/privacy" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/privacy" />
+<changefreq>monthly</changefreq>
+<priority>0.3</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/privacy</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/privacy" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/privacy" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/privacy" />
+<changefreq>monthly</changefreq>
+<priority>0.3</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/stories/salt-and-silence</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/salt-and-silence" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/salt-and-silence" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/salt-and-silence" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/stories/salt-and-silence</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/salt-and-silence" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/salt-and-silence" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/salt-and-silence" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/stories/salt-and-silence</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/salt-and-silence" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/salt-and-silence" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/salt-and-silence" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/stories/between-the-lines</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/between-the-lines" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/between-the-lines" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/between-the-lines" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/stories/between-the-lines</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/between-the-lines" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/between-the-lines" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/between-the-lines" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/stories/between-the-lines</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/between-the-lines" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/between-the-lines" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/between-the-lines" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/ru/stories/geometry-of-stillness</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/geometry-of-stillness" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/geometry-of-stillness" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/geometry-of-stillness" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/en/stories/geometry-of-stillness</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/geometry-of-stillness" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/geometry-of-stillness" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/geometry-of-stillness" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://t13crow.github.io/tr/stories/geometry-of-stillness</loc>
+<xhtml:link rel="alternate" hreflang="ru" href="https://t13crow.github.io/ru/stories/geometry-of-stillness" />
+<xhtml:link rel="alternate" hreflang="en" href="https://t13crow.github.io/en/stories/geometry-of-stillness" />
+<xhtml:link rel="alternate" hreflang="tr" href="https://t13crow.github.io/tr/stories/geometry-of-stillness" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+</urlset>
