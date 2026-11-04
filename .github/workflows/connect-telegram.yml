@@ -15,7 +15,7 @@ jobs:
           python3 - <<'PY'
           import urllib.request, urllib.error, json
           url='https://t13crow-orders.amirarsalannajafi.workers.dev/api/contact'
-          headers={'Origin':'https://t13crow.github.io','Content-Type':'application/json'}
+          headers={'Origin':'https://t13crow.github.io','Content-Type':'application/json','User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36','Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'content-type'}
           try:
               r=urllib.request.urlopen(urllib.request.Request(url,method='OPTIONS',headers=headers),timeout=20)
           except urllib.error.HTTPError as e:
