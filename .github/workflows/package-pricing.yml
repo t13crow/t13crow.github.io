@@ -49,7 +49,7 @@ jobs:
            for k,v in p.items():
             if k=="children":continue
             key="class" if k=="className" else k
-            attrs+=" "+key+"="+html.escape(str(v),quote=True)
+            attrs+=" "+key+'="'+html.escape(str(v),quote=True)+'"'
            return "<"+tag+attrs+">"+("".join(render(a) for a in c) if isinstance(c,list) else render(c))+"</"+tag+">"
           for lang in COPY:
            for p in Path(lang+"/contact").glob("*.txt"):
@@ -57,7 +57,8 @@ jobs:
            p=Path(lang+"/contact/index.html");s=p.read_text()
            marker='<header class="contact-heading">'
            start=s.index(marker);end=s.index("</header>",start)+len("</header>")
-           s=s[:end]+render(package_node(lang))+'<form id="inquiry"'+s[s.index('<form ',end)+6:]
+           s=s[:end]+render(package_node(lang))+s[end:]
+           s=s.replace('<form class="contact-form"','<form id="inquiry" class="contact-form"',1)
            p.write_text(s)
           css=Path("_next/static/css/540dfd1690fe1aab.css")
           s=css.read_text()+"""
@@ -75,7 +76,7 @@ jobs:
            p.write_text(s)
           for lang in COPY:
            s=Path(lang+"/contact/index.html").read_text()
-           assert s.count('class="package-section"')==1 and 'id="inquiry"' in s
+           assert s.count('class="package-section"')==1 and '<form id="inquiry" class="contact-form"' in s
            assert s.count('€')>=4
            assert "refunded in full within 14 days" in s if lang=="en" else ("возвращается полностью в течение 14 дней" in s if lang=="ru" else "14 gün içinde tamamen iade edilir" in s)
            assert Path(lang+"/contact/index.txt").read_text().count('"className":"package-section"')>=1
