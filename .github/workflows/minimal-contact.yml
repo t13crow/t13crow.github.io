@@ -1,0 +1,99 @@
+name: Simplify contact page
+on:
+  push:
+    paths: ['.github/workflows/minimal-contact.yml']
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re,html,hashlib
+          labels={"en":"Booking details","ru":"Условия записи","tr":"Rezervasyon koşulları"}
+          def isnode(x):return isinstance(x,list) and len(x)==4 and x[0]=="$" and isinstance(x[3],dict)
+          def change(x,lang):
+           if isnode(x):
+            p=x[3];cls=p.get("className")
+            if cls=="contact-heading":
+             p["children"]=[c for c in p["children"] if not(isnode(c) and c[3].get("className")=="booking-steps")]
+            if cls=="contact-direct":
+             p["children"]=[c for c in p["children"] if not(isnode(c) and c[1]=="p")]
+            if cls=="package-section":
+             cs=p["children"];terms=[c for c in cs if isnode(c) and c[3].get("className")=="package-terms"]
+             p["children"]=[c for c in cs if c not in terms]+[["$","details",None,{"className":"booking-details","children":[["$","summary",None,{"children":labels[lang]}]]+terms}]]
+           if isinstance(x,list):
+            for c in x:change(c,lang)
+           elif isinstance(x,dict):
+            for c in x.values():change(c,lang)
+          def flight(s,lang):
+           out=[]
+           for line in s.splitlines(True):
+            try:k,v=line.split(":",1);obj=json.loads(v)
+            except (ValueError,IndexError):out.append(line);continue
+            change(obj,lang);out.append(k+":"+json.dumps(obj,ensure_ascii=False,separators=(",",":"))+("\n" if line.endswith("\n") else ""))
+           return "".join(out)
+          for lang in labels:
+           for f in Path(lang+"/contact").glob("*.txt"):f.write_text(flight(f.read_text(),lang))
+           f=Path(lang+"/contact/index.html");s=f.read_text()
+           s=re.sub(r'<section class="booking-steps">.*?</section>','',s,count=1)
+           s=re.sub(r'(<div class="contact-direct">)<p>.*?</p>',r'\1',s,count=1)
+           terms=re.findall(r'<p class="package-terms">.*?</p>',s)
+           s=re.sub(r'<p class="package-terms">.*?</p>','',s)
+           marker='</div></section><div id="inquiry">'
+           # Locate package section end after its hourly block.
+           pos=s.index('<section class="package-section">');end=s.index('</section>',pos)
+           s=s[:end]+'<details class="booking-details"><summary>'+labels[lang]+'</summary>'+''.join(terms)+'</details>'+s[end:]
+           def embedded(m):
+            a=json.loads(m[1]);a[1]=flight(a[1],lang)
+            return "self.__next_f.push("+json.dumps(a,ensure_ascii=False,separators=(",",":"))+")"
+           s=re.sub(r'self\.__next_f\.push\((\[1,"(?:[^"\\]|\\.)*"\])\)',embedded,s)
+           f.write_text(s)
+           assert 'class="booking-steps"' not in s
+           assert s.count('class="package-card"')==3
+           assert '<details class="booking-details">' in s
+          p=Path(re.search(r'href="(/_next/static/css/[^"]+)"',Path("en/contact/index.html").read_text())[1][1:])
+          s=p.read_text()+"""
+          .contact-page{max-width:1120px;margin-inline:auto}
+          .contact-page .contact-heading{margin-bottom:2.5rem;max-width:720px}
+          .contact-page .contact-heading h1{font-size:clamp(36px,5vw,60px);margin:18px 0;line-height:1.15}
+          .contact-page .contact-heading .contact-location{margin-top:14px}
+          .contact-page .contact-direct{border:0;margin-top:8px;padding-top:0;max-width:none}
+          .contact-page .contact-direct>a{margin:0;font-size:12px}
+          .contact-page .package-section{margin:2.5rem 0}
+          .contact-page .package-section>h2{font-size:20px;font-weight:400;margin-bottom:20px}
+          .contact-page .package-grid{gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+          .contact-page .package-card{border:0;border-right:1px solid var(--line);background:none;padding:26px 24px;min-height:290px}
+          .contact-page .package-card:last-child{border-right:0}
+          .contact-page .package-card h3{font-size:15px;font-weight:400;margin:8px 0 22px;color:#aaa}
+          .contact-page .package-price{font-size:30px;line-height:1.2}
+          .contact-page .package-card ul{font-size:12px;line-height:1.7;gap:8px;margin-bottom:20px}
+          .contact-page .package-link{font-size:12px;padding:6px 0}
+          .contact-page .package-note{font-size:12px;margin:14px 0 24px}
+          .contact-page .hourly-note{border:0;display:grid;grid-template-columns:1fr auto;gap:8px 24px;padding:0;margin:0 0 20px}
+          .contact-page .hourly-note h3{font-size:16px;font-weight:400}
+          .contact-page .hourly-note p{font-size:14px;margin:0}
+          .contact-page .hourly-note p:last-child{grid-column:1/-1;color:#999;font-size:12px;max-width:65ch}
+          .contact-page .booking-details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0}
+          .contact-page .booking-details summary{cursor:pointer;font-size:12px;letter-spacing:.03em}
+          .contact-page .booking-details[open] summary{margin-bottom:14px}
+          .contact-page .booking-details p{font-size:12px;line-height:1.8}
+          .contact-page #inquiry{margin:48px auto 0;max-width:760px}
+          @media(max-width:900px){.contact-page .package-grid{grid-template-columns:1fr}.contact-page .package-card{min-height:0;border-right:0;border-bottom:1px solid var(--line);padding:24px 0}.contact-page .package-card:last-child{border-bottom:0}.contact-page .package-card h3{margin-bottom:14px}.contact-page .package-card ul{margin-bottom:14px}}
+          """
+          p.write_text(s);new=hashlib.sha256(s.encode()).hexdigest()[:16]+".css";p.with_name(new).write_text(s)
+          for f in Path(".").rglob("*"):
+           if f.is_file() and ".git" not in f.parts and ".github" not in f.parts and f.suffix in (".html",".txt",".js"):
+            t=f.read_text();u=t.replace(p.name,new)
+            if t!=u:f.write_text(u)
+          print("Simplified layout, removed steps and preserved three packages in every locale.")
+          
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Simplify contact page and remove repeated booking steps"
+          git push origin HEAD:main
