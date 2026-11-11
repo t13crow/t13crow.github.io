@@ -1,4 +1,4 @@
-:HL["/_next/static/css/acb618f3e36c2bbc.css","style"]
+:HL["/_next/static/css/388a4cfa8186af6d.css","style"]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":"privacy","h":64,"c":"$Q3"}]]
 1:[["children",{"s":{"n":"locale","t":"d","k":"ru","s":["_not-found","_global-error","og.png","robots.txt","sitemap.xml"]},"h":48,"c":"$Q2"}]]
