@@ -3,3 +3,13 @@
 .booking-steps{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #ffffff26}.booking-steps h2{font-size:1.2rem;line-height:1.4;margin:0 0 1.25rem}.booking-steps ol{list-style:none;padding:0;margin:0;display:grid;gap:1.25rem}.booking-steps h3{font-size:.95rem;line-height:1.5;margin:0 0 .35rem}.booking-steps p{font-size:.9rem;line-height:1.65;margin:0;max-width:46ch}
 
 .package-section{margin:3rem 0 4rem}.package-section>h2{font-size:clamp(1.8rem,4vw,3rem);margin:0 0 1.5rem}.package-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.package-card{border:1px solid rgba(255,255,255,.18);padding:1.4rem;display:flex;flex-direction:column;min-height:19rem;background:rgba(255,255,255,.025)}.package-card h3{font-size:1.4rem;margin:.35rem 0 1rem}.package-price{font-size:2rem;margin:0}.package-card ul{list-style:none;padding:0;margin:0 0 1.5rem;display:grid;gap:.75rem}.package-link{margin-top:auto;display:inline-flex;width:max-content;border-bottom:1px solid currentColor;padding:.4rem 0;text-decoration:none}.package-note,.package-terms{line-height:1.65;max-width:72ch;opacity:.8}.hourly-note{border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18);padding:1.3rem 0;margin-top:1.5rem}.hourly-note h3{margin:0 0 .5rem}.hourly-note p{margin:.35rem 0;line-height:1.6}.package-terms{margin:.8rem 0}@media(max-width:700px){.package-grid{grid-template-columns:1fr}.package-card{min-height:0}}
+
+.contact-page{display:block!important}
+.contact-page .contact-heading{position:static!important;top:auto;max-width:800px;margin-bottom:3rem}
+.contact-page .contact-heading>p:not(.eyebrow){max-width:600px}
+.contact-page .package-section{width:100%;min-width:0;margin:3rem 0}
+.contact-page .package-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.contact-page .package-card{min-width:0;overflow-wrap:anywhere}
+.contact-page .package-link{max-width:100%;width:fit-content}
+.contact-page #inquiry{max-width:760px;scroll-margin-top:110px;margin-top:3rem}
+@media(max-width:900px){.contact-page .package-grid{grid-template-columns:1fr}}
